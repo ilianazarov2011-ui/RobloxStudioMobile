@@ -30,13 +30,8 @@ if [ -n "${ANDROID_HOME:-}" ]; then echo "sdk.dir=$ANDROID_HOME" > "$SRC/local.p
 
 # gradle/maven-mirror.gradle routes Maven Central through Google's mirror (repo.maven.apache.org
 # rate-limits some cloud machines with HTTP 429).
-(cd "$SRC" && chmod +x gradlew && ./gradlew --no-daemon --init-script "$ROOT/gradle/maven-mirror.gradle" assembleRelease)
+(cd "$SRC" && chmod +x gradlew && ./gradlew --no-daemon --init-script "$ROOT/gradle/maven-mirror.gradle" assembleDebug --stacktrace)
 
 mkdir -p "$ROOT/apk"
-OUT="$SRC/app/build/outputs/apk/release"
-if [ -f "$OUT/app-release.apk" ]; then
-    cp "$OUT/app-release.apk" "$ROOT/apk/RobloxStudioMobile.apk"
-else
-    cp "$OUT/app-release-unsigned.apk" "$ROOT/apk/RobloxStudioMobile-unsigned.apk"
-fi
+cp "$SRC/app/build/outputs/apk/debug/app-debug.apk" "$ROOT/apk/RobloxStudioMobile.apk"
 ls -la "$ROOT/apk"
